@@ -22,7 +22,7 @@ type
     property ID: String read IDRead write IDWrite;
   end;
 
-  TCylinder = class(TPersistent)
+  TCylinder = class abstract(TPersistent)
   strict private
     FCylinderNumber: integer;
     FFired: boolean;
@@ -30,6 +30,9 @@ type
     property CylinderNumber: integer read FCylinderNumber write FCylinderNumber;
     property Fired: boolean read FFired write FFired;
   end;
+
+  TEvenCylinder = class(TCylinder);
+  TOddCylinder = class(TCylinder);
 
   TCylinderList = class(TObjectList<TCylinder>, ITMSFNCBaseListIO)
   private
@@ -108,8 +111,10 @@ begin
     result := TElectricCar.Create('', '', 0);
   if AClassName = 'TGasolineCar' then
     result := TGasolineCar.Create('', '', 0);
-  if AClassName = 'TCylinder' then
-    result := TCylinder.Create();
+  if AClassName = 'TEvenCylinder' then
+    result := TEvenCylinder.Create();
+  if AClassName = 'TOddCylinder' then
+    result := TOddCylinder.Create();
 end;
 
 destructor TGarage.Destroy;
@@ -160,6 +165,35 @@ end;
 procedure TCar.IDWrite(const Value: String);
 begin
   FID := StringToGuid(Value);
+end;
+
+{ TGasolineCar }
+
+constructor TGasolineCar.Create(const AMaker, AModel: string; const ACylinderCount: integer);
+var
+  i: integer;
+  cyl: TCylinder;
+begin
+  inherited Create(AMaker, AModel);
+  FCylinderList := TCylinderList.Create(true);
+  for i := 1 to ACylinderCount do
+  begin
+    if (i mod 2) = 0 then
+      cyl := TEvenCylinder.Create
+    else
+      cyl := TOddCylinder.Create;
+    cyl.CylinderNumber := i;
+    cyl.Fired := true;
+    FCylinderList.Add(cyl);
+  end;
+end;
+
+{ TElectricCar }
+
+constructor TElectricCar.Create(const AMaker, AModel: string; const AKW: integer);
+begin
+  inherited Create(AMaker, AModel);
+  FKW := AKW;
 end;
 
 { TCylinderList }
@@ -222,33 +256,6 @@ begin
     result := FOwnerInterface._Release
   else
     result := -1;
-end;
-
-{ TGasolineCar }
-
-constructor TGasolineCar.Create(const AMaker, AModel: string; const ACylinderCount: integer);
-var
-  i: integer;
-  cyl: TCylinder;
-begin
-  inherited Create(AMaker, AModel);
-  FCylinderList := TCylinderList.Create(true);
-  for i := 1 to ACylinderCount do
-  begin
-    cyl := TCylinder.Create;
-    cyl.CylinderNumber := i;
-    cyl.Fired := (i mod 2) = 0;
-    FCylinderList.Add(cyl);
-  end;
-
-end;
-
-{ TElectricCar }
-
-constructor TElectricCar.Create(const AMaker, AModel: string; const AKW: integer);
-begin
-  inherited Create(AMaker, AModel);
-  FKW := AKW;
 end;
 
 end.

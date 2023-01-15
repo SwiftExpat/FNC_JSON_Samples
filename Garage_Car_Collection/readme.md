@@ -2,6 +2,8 @@
 
 This sample demonstrates how to use TMS FNC Core JSON to deal with generic collections and restoring using the interfaces that are recognized by FNC JSON. Currently the garage holds 2 types of cars, TGasolineCar and TElectricCar both are **class(TCar)** and the collection is defined as TObjectDictionary<string, TCar> to allow all cars to be added to the garage.
 
+The sample is for you to set debug break points to be able to trace the execuction, notes are included in the code where I felt clarification was needed.
+
 # Explaination
 
 ## Root Object - TGarage Implements ITMSFNCBasePersistenceIO
@@ -57,7 +59,7 @@ FNC has a object help to expose a JSON property, so here the JSON is captured to
 
 ## Import Object from JSON
 
-Since this object requires types, there is a little more code here. **Capture and reset the IO and root refrences when you Load your object,** just use a try finally block.
+Since this object requires types, there is a little more code here. **Capture and RESTORE the IO and root refrences when you Load your object.** These are class var for the TTMSFNCPersistence class so you are assigning them and must restore, just use a try finally block.
 
 ```pascal
 procedure TfrmJsonGarageV.btnImportClick(Sender: TObject);

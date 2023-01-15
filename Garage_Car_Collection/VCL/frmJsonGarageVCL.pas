@@ -38,7 +38,9 @@ uses Vcl.TMSFNCPersistence;
 
 procedure TfrmJsonGarageV.FormCreate(Sender: TObject);
 begin
+  //register the persistent classes
   TGarage.RegisterJsonClasses;
+  //Create the Garage that will be the source
   FGarage := TGarage.Create;
   FJson := FGarage.JSON;
   tvLive.ViewJSONFromText(FJson);
@@ -49,21 +51,22 @@ var
   g: TGarage;
   FOPIORef, FOPRoot: TObject;
 begin
-
+  // capture the refs to be able to restore after finished
   FOPIORef := TTMSFNCPersistence.IOReference;
   FOPRoot := TTMSFNCPersistence.RootObject;
   try
+    //create the new object that will be the destination for the data
     g := TGarage.Create(false);
+    // IO Reference allows the framework to ask your object to create the destination classes
     TTMSFNCPersistence.IOReference := g;
     TTMSFNCPersistence.RootObject := g;
-
+    //Load the new object with a copy of the original object
     TTMSFNCObjectPersistence.LoadObjectFromString(g, FJson);
   finally
-    TTMSFNCPersistence.IOReference := FOPIORef;
-    TTMSFNCPersistence.RootObject := FOPRoot;
+    TTMSFNCPersistence.IOReference := FOPIORef; // restore
+    TTMSFNCPersistence.RootObject := FOPRoot; // restore
   end;
   tvImport.ViewJSONFromText(g.JSON);
-
 end;
 
 end.

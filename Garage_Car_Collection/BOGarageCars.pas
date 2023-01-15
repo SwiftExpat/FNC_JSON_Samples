@@ -7,15 +7,19 @@ uses System.Classes, Generics.Collections, VCL.TMSFNCJSONReader, VCL.TMSFNCPersi
 type
 
   TCar = class abstract(TPersistent)
-  private
+  strict private
     FMaker: string;
     FModel: string;
+    FID: TGUID;
+    function IDRead: String;
+    procedure IDWrite(const Value: String);
   public
     constructor Create(const AMaker, AModel: string);
     destructor Destroy; override;
   published
     property Maker: string read FMaker write FMaker;
     property Model: string read FModel write FModel;
+    property ID: String read IDRead write IDWrite;
   end;
 
   TCylinder = class(TPersistent)
@@ -49,11 +53,11 @@ type
 
   TElectricCar = class(TCar)
   private
-    FKW: Integer;
+    FKW: integer;
   public
-    constructor Create( const AMaker, AModel: string; const AKW: integer) ;
+    constructor Create(const AMaker, AModel: string; const AKW: integer);
   published
-    property KW :Integer read FKW write FKW;
+    property KW: integer read FKW write FKW;
   end;
 
   TCarList = class(TObjectDictionary<string, TCar>, ITMSFNCBaseListIO)
@@ -118,15 +122,12 @@ procedure TGarage.LoadCars;
 var
   g: TGasolineCar;
   e: TElectricCar;
-  id: TGUID;
 begin
-  CreateGUID(id);
   g := TGasolineCar.Create('Chevrolet', 'El Camino', 8);
-  FCarList.Add(id.ToString, g);
+  FCarList.Add(g.ID, g);
 
-  CreateGUID(id);
-  e:= TElectricCar.Create('General Motors', 'EV1', 102);
-  FCarList.Add(id.ToString, e);
+  e := TElectricCar.Create('General Motors', 'EV1', 102);
+  FCarList.Add(g.ID, e);
 end;
 
 class procedure TGarage.RegisterJsonClasses;
@@ -146,8 +147,18 @@ end;
 
 destructor TCar.Destroy;
 begin
-
+  CreateGuid(FID);
   inherited;
+end;
+
+function TCar.IDRead: String;
+begin
+  result := FID.ToString;
+end;
+
+procedure TCar.IDWrite(const Value: String);
+begin
+  FID := StringToGuid(Value);
 end;
 
 { TCylinderList }
@@ -225,19 +236,18 @@ begin
   begin
     cyl := TCylinder.Create;
     cyl.CylinderNumber := i;
-    cyl.Fired := (I mod 2) = 0;
+    cyl.Fired := (i mod 2) = 0;
     FCylinderList.Add(cyl);
   end;
 
 end;
 
-
 { TElectricCar }
 
 constructor TElectricCar.Create(const AMaker, AModel: string; const AKW: integer);
 begin
-inherited Create(AMaker, AModel);
-FKw := AKW;
+  inherited Create(AMaker, AModel);
+  FKW := AKW;
 end;
 
 end.

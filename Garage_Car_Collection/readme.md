@@ -4,6 +4,10 @@ This sample demonstrates how to use TMS FNC Core JSON to deal with generic colle
 
 The sample is for you to set debug break points to be able to trace the execuction, notes are included in the code where I felt clarification was needed.
 
+Reference from TMS is here: https://www.tmssoftware.com/site/blog.asp?post=971
+
+The article above lacks abstract and derived classes, so in this code I have implemented abstract and derived to allow you to set breakpoints and examine where the calls to CreateObject.
+
 # Explaination
 
 ## Root Object - TGarage Implements ITMSFNCBasePersistenceIO

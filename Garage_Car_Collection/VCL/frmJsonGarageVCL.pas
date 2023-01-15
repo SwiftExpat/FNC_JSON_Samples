@@ -6,20 +6,18 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.TMSFNCTypes, Vcl.TMSFNCUtils, Vcl.TMSFNCGraphics, Vcl.TMSFNCGraphicsTypes,
   Vcl.TMSFNCPageControl, Vcl.TMSFNCCustomControl, Vcl.TMSFNCTabSet, BOGarageCars, Vcl.TMSFNCTreeViewBase,
-  Vcl.TMSFNCTreeViewData, Vcl.TMSFNCCustomTreeView, Vcl.TMSFNCTreeView, Vcl.TMSFNCToolBar;
+  Vcl.TMSFNCTreeViewData, Vcl.TMSFNCCustomTreeView, Vcl.TMSFNCTreeView, Vcl.TMSFNCToolBar, Vcl.TMSFNCSplitter;
 
 type
   TfrmJsonGarageV = class(TForm)
-    TMSFNCPageControl1: TTMSFNCPageControl;
-    TMSFNCPageControl1Page0: TTMSFNCPageControlContainer;
-    TMSFNCPageControl1Page1: TTMSFNCPageControlContainer;
-    TMSFNCPageControl1Page2: TTMSFNCPageControlContainer;
     tvLive: TTMSFNCTreeView;
     tvImport: TTMSFNCTreeView;
     TMSFNCToolBar1: TTMSFNCToolBar;
-    TMSFNCToolBarButton1: TTMSFNCToolBarButton;
+    btnImport: TTMSFNCToolBarButton;
+    TMSFNCSplitter1: TTMSFNCSplitter;
     procedure FormCreate(Sender: TObject);
-    procedure TMSFNCToolBarButton1Click(Sender: TObject);
+    procedure btnImportClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     FGarage: TGarage;
     FJson: string;
@@ -38,35 +36,40 @@ uses Vcl.TMSFNCPersistence;
 
 procedure TfrmJsonGarageV.FormCreate(Sender: TObject);
 begin
-  //register the persistent classes
+  // register the persistent classes
   TGarage.RegisterJsonClasses;
-  //Create the Garage that will be the source
+  // Create the Garage that will be the source
   FGarage := TGarage.Create;
   FJson := FGarage.JSON;
   tvLive.ViewJSONFromText(FJson);
 end;
 
-procedure TfrmJsonGarageV.TMSFNCToolBarButton1Click(Sender: TObject);
+procedure TfrmJsonGarageV.FormResize(Sender: TObject);
+begin
+  tvLive.Width := Round(self.Width / 2);
+end;
+
+procedure TfrmJsonGarageV.btnImportClick(Sender: TObject);
 var
-  g: TGarage;
-  FOPIORef, FOPRoot: TObject;
+  g: TGarage; // a new object to restore to
+  FOPIORef, FOPRoot: TObject; // capture the references
 begin
   // capture the refs to be able to restore after finished
-  FOPIORef := TTMSFNCPersistence.IOReference;
-  FOPRoot := TTMSFNCPersistence.RootObject;
+  FOPIORef := TTMSFNCPersistence.IOReference; // class var needs to be restored after use
+  FOPRoot := TTMSFNCPersistence.RootObject; // class var needs to be restored after use
   try
-    //create the new object that will be the destination for the data
-    g := TGarage.Create(false);
+    // create the new object that will be the destination for the data
+    g := TGarage.Create(false); // false creates it without cars
     // IO Reference allows the framework to ask your object to create the destination classes
-    TTMSFNCPersistence.IOReference := g;
-    TTMSFNCPersistence.RootObject := g;
-    //Load the new object with a copy of the original object
+    TTMSFNCPersistence.IOReference := g; // set the IO Reference
+    TTMSFNCPersistence.RootObject := g; // set the Root Object
+    // Load the new object with a copy of the original object
     TTMSFNCObjectPersistence.LoadObjectFromString(g, FJson);
   finally
     TTMSFNCPersistence.IOReference := FOPIORef; // restore
     TTMSFNCPersistence.RootObject := FOPRoot; // restore
   end;
-  tvImport.ViewJSONFromText(g.JSON);
+  tvImport.ViewJSONFromText(g.JSON); // load the tree to view the JSON
 end;
 
 end.

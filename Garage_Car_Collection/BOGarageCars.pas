@@ -72,7 +72,7 @@ type
   end;
 
   TGarage = class(TInterfacedPersistent, ITMSFNCBasePersistenceIO)
-  private
+  strict private
     FCarList: TCarList;
     FName: string;
     procedure LoadCars;
@@ -95,7 +95,7 @@ uses VCL.TMSFNCUtils, System.DateUtils, System.SysUtils;
 
 constructor TGarage.Create(ALoadCars: boolean = true);
 begin
-  FName := 'Don Garlit''s Garage';
+  FName := 'Jason''s Garage';
   FCarList := TCarList.Create([DoOwnsValues]);
   if ALoadCars then
     LoadCars;
@@ -120,14 +120,15 @@ end;
 
 procedure TGarage.LoadCars;
 var
-  g: TGasolineCar;
-  e: TElectricCar;
+  // g: TGasolineCar;
+  // e: TElectricCar;
+  c: TCar;
 begin
-  g := TGasolineCar.Create('Chevrolet', 'El Camino', 8);
-  FCarList.Add(g.ID, g);
+  c := TGasolineCar.Create('Chevrolet', 'El Camino', 8);
+  FCarList.Add(c.ID, c);
 
-  e := TElectricCar.Create('General Motors', 'EV1', 102);
-  FCarList.Add(g.ID, e);
+  c := TElectricCar.Create('General Motors', 'EV1', 102);
+  FCarList.Add(c.ID, c);
 end;
 
 class procedure TGarage.RegisterJsonClasses;
@@ -143,11 +144,11 @@ constructor TCar.Create(const AMaker, AModel: string);
 begin
   FMaker := AMaker;
   FModel := AModel;
+  CreateGuid(FID);
 end;
 
 destructor TCar.Destroy;
 begin
-  CreateGuid(FID);
   inherited;
 end;
 
@@ -223,7 +224,7 @@ begin
     result := -1;
 end;
 
-{ TDieselCar }
+{ TGasolineCar }
 
 constructor TGasolineCar.Create(const AMaker, AModel: string; const ACylinderCount: integer);
 var

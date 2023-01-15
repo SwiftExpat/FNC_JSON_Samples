@@ -43,14 +43,44 @@ Your root object needs to implement ITMSFNCBasePersistenceIO, this will allow yo
 
 Implementing the ITMSFNCBaseListIO allows the framework to query the base type of the item class in the list, this will be passed back to CreateObject in the Root Object class.
 
-Execution
+# Execution
 
 The form create event is used to create a TGarage and load some cars, then display it in an FNCTree so that you can compare the values.
 
-Export Object to JSON
+## Export Object to JSON
 
 FNC has a object help to expose a JSON property, so here the JSON is captured to a string variable
 
 ```pascal
   FJson := FGarage.JSON;
+```
+
+## Import Object from JSON
+
+Since this object requires types, there is a little more code here. **Capture and reset the IO and root refrences when you Load your object,** just use a try finally block.
+
+```pascal
+procedure TfrmJsonGarageV.btnImportClick(Sender: TObject);
+var
+  g: TGarage; // a new object to restore to
+  FOPIORef, FOPRoot: TObject; // capture the references
+begin
+  // capture the refs to be able to restore after finished
+  FOPIORef := TTMSFNCPersistence.IOReference; // class var needs to be restored after use
+  FOPRoot := TTMSFNCPersistence.RootObject; // class var needs to be restored after use
+  try
+    // create the new object that will be the destination for the data
+    g := TGarage.Create(false); // false creates it without cars
+    // IO Reference allows the framework to ask your object to create the destination classes
+    TTMSFNCPersistence.IOReference := g; // set the IO Reference
+    TTMSFNCPersistence.RootObject := g; // set the Root Object
+    // Load the new object with a copy of the original object
+    TTMSFNCObjectPersistence.LoadObjectFromString(g, FJson);
+  finally
+    TTMSFNCPersistence.IOReference := FOPIORef; // restore
+    TTMSFNCPersistence.RootObject := FOPRoot; // restore
+  end;
+  tvImport.ViewJSONFromText(g.JSON); // load the tree to view the JSON
+end;
+
 ```

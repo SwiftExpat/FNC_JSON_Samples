@@ -1,0 +1,1 @@
+These samples are to show how to use TMS FNC Core JSON to deal with generic collections and restoring

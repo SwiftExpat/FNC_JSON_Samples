@@ -1,0 +1,243 @@
+unit BOGarageCars;
+
+interface
+
+uses System.Classes, Generics.Collections, VCL.TMSFNCJSONReader, VCL.TMSFNCPersistence;
+
+type
+
+  TCar = class abstract(TPersistent)
+  private
+    FMaker: string;
+    FModel: string;
+  public
+    constructor Create(const AMaker, AModel: string);
+    destructor Destroy; override;
+  published
+    property Maker: string read FMaker write FMaker;
+    property Model: string read FModel write FModel;
+  end;
+
+  TCylinder = class(TPersistent)
+  strict private
+    FCylinderNumber: integer;
+    FFired: boolean;
+  published
+    property CylinderNumber: integer read FCylinderNumber write FCylinderNumber;
+    property Fired: boolean read FFired write FFired;
+  end;
+
+  TCylinderList = class(TObjectList<TCylinder>, ITMSFNCBaseListIO)
+  private
+    FOwnerInterface: IInterface;
+  protected
+    function GetItemClass: TClass;
+    function _AddRef: integer; stdcall;
+    function _Release: integer; stdcall;
+  public
+    function QueryInterface(const IID: TGUID; out Obj): HResult; virtual; stdcall;
+  end;
+
+  TGasolineCar = class(TCar)
+  private
+    FCylinderList: TCylinderList;
+  public
+    constructor Create(const AMaker, AModel: string; const ACylinderCount: integer);
+  published
+    property CylinderList: TCylinderList read FCylinderList write FCylinderList;
+  end;
+
+  TElectricCar = class(TCar)
+  private
+    FKW: Integer;
+  public
+    constructor Create( const AMaker, AModel: string; const AKW: integer) ;
+  published
+    property KW :Integer read FKW write FKW;
+  end;
+
+  TCarList = class(TObjectDictionary<string, TCar>, ITMSFNCBaseListIO)
+  private
+    FOwnerInterface: IInterface;
+  protected
+    function GetItemClass: TClass;
+    function _AddRef: integer; stdcall;
+    function _Release: integer; stdcall;
+  public
+    function QueryInterface(const IID: TGUID; out Obj): HResult; virtual; stdcall;
+  end;
+
+  TGarage = class(TInterfacedPersistent, ITMSFNCBasePersistenceIO)
+  private
+    FCarList: TCarList;
+    FName: string;
+    procedure LoadCars;
+  protected
+    function CreateObject(const AClassName: string; const ABaseClass: TClass): TObject;
+  public
+    constructor Create(ALoadCars: boolean = true);
+    destructor Destroy; override;
+    class procedure RegisterJsonClasses;
+  published
+    property Name: string read FName write FName;
+    property CarList: TCarList read FCarList;
+  end;
+
+implementation
+
+uses VCL.TMSFNCUtils, System.DateUtils, System.SysUtils;
+
+{ TGarage }
+
+constructor TGarage.Create(ALoadCars: boolean = true);
+begin
+  FName := 'Don Garlit''s Garage';
+  FCarList := TCarList.Create([DoOwnsValues]);
+  if ALoadCars then
+    LoadCars;
+end;
+
+function TGarage.CreateObject(const AClassName: string; const ABaseClass: TClass): TObject;
+begin
+  result := nil;
+  if AClassName = 'TElectricCar' then
+    result := TElectricCar.Create('', '', 0);
+  if AClassName = 'TGasolineCar' then
+    result := TGasolineCar.Create('', '', 0);
+  if AClassName = 'TCylinder' then
+    result := TCylinder.Create();
+end;
+
+destructor TGarage.Destroy;
+begin
+  FCarList.Free;
+  inherited;
+end;
+
+procedure TGarage.LoadCars;
+var
+  g: TGasolineCar;
+  e: TElectricCar;
+  id: TGUID;
+begin
+  CreateGUID(id);
+  g := TGasolineCar.Create('Chevrolet', 'El Camino', 8);
+  FCarList.Add(id.ToString, g);
+
+  CreateGUID(id);
+  e:= TElectricCar.Create('General Motors', 'EV1', 102);
+  FCarList.Add(id.ToString, e);
+end;
+
+class procedure TGarage.RegisterJsonClasses;
+begin
+  RegisterClass(TGasolineCar);
+  RegisterClass(TElectricCar);
+  RegisterClass(TCylinder);
+end;
+
+{ TCar }
+
+constructor TCar.Create(const AMaker, AModel: string);
+begin
+  FMaker := AMaker;
+  FModel := AModel;
+end;
+
+destructor TCar.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TCylinderList }
+
+function TCylinderList.GetItemClass: TClass;
+begin
+  result := TCylinder;
+end;
+
+function TCylinderList.QueryInterface(const IID: TGUID; out Obj): HResult;
+begin
+  if GetInterface(IID, Obj) then
+    result := 0
+  else
+    result := E_NOINTERFACE;
+end;
+
+function TCylinderList._AddRef: integer;
+begin
+  if FOwnerInterface <> nil then
+    result := FOwnerInterface._AddRef
+  else
+    result := -1;
+end;
+
+function TCylinderList._Release: integer;
+begin
+  if FOwnerInterface <> nil then
+    result := FOwnerInterface._Release
+  else
+    result := -1;
+end;
+
+{ TCarList }
+
+function TCarList.GetItemClass: TClass;
+begin
+  result := TCar;
+end;
+
+function TCarList.QueryInterface(const IID: TGUID; out Obj): HResult;
+begin
+  if GetInterface(IID, Obj) then
+    result := 0
+  else
+    result := E_NOINTERFACE;
+end;
+
+function TCarList._AddRef: integer;
+begin
+  if FOwnerInterface <> nil then
+    result := FOwnerInterface._AddRef
+  else
+    result := -1;
+end;
+
+function TCarList._Release: integer;
+begin
+  if FOwnerInterface <> nil then
+    result := FOwnerInterface._Release
+  else
+    result := -1;
+end;
+
+{ TDieselCar }
+
+constructor TGasolineCar.Create(const AMaker, AModel: string; const ACylinderCount: integer);
+var
+  i: integer;
+  cyl: TCylinder;
+begin
+  inherited Create(AMaker, AModel);
+  FCylinderList := TCylinderList.Create(true);
+  for i := 1 to ACylinderCount do
+  begin
+    cyl := TCylinder.Create;
+    cyl.CylinderNumber := i;
+    cyl.Fired := (I mod 2) = 0;
+    FCylinderList.Add(cyl);
+  end;
+
+end;
+
+
+{ TElectricCar }
+
+constructor TElectricCar.Create(const AMaker, AModel: string; const AKW: integer);
+begin
+inherited Create(AMaker, AModel);
+FKw := AKW;
+end;
+
+end.

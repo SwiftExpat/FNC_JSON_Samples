@@ -108,9 +108,9 @@ function TGarage.CreateObject(const AClassName: string; const ABaseClass: TClass
 begin
   result := nil;
   if AClassName = 'TElectricCar' then
-    result := TElectricCar.Create('', '', 0);
+    result := TElectricCar.Create('co - electric', 'json load', 0);
   if AClassName = 'TGasolineCar' then
-    result := TGasolineCar.Create('', '', 0);
+    result := TGasolineCar.Create('co - gasoline', 'json load', 0);
   if AClassName = 'TEvenCylinder' then
     result := TEvenCylinder.Create();
   if AClassName = 'TOddCylinder' then

@@ -19,7 +19,7 @@ The article above lacks abstract and derived classes, so in this code I have imp
     FName: string;
     procedure LoadCars;
   protected
-    function CreateObject(const AClassName: string; const ABaseClass: TClass): TObject;
+    function CreateObject(const AClassName: string; const ABaseClass: TClass): TObject; //Creates objects on JSON Load
   public
     constructor Create(ALoadCars: boolean = true);
     destructor Destroy; override;
@@ -30,7 +30,26 @@ The article above lacks abstract and derived classes, so in this code I have imp
   end;
 ```
 
-Your root object needs to implement ITMSFNCBasePersistenceIO, this will allow your object to create the correct class type on restore using the function, CreateObject.  The list that holds the cars is covered next.
+Your root object needs to implement ITMSFNCBasePersistenceIO, this will allow your object to create the correct class type on restore using the function, CreateObject.  The FCarList is an object dictionary that holds the cars is covered next.
+
+### CreateObject - ITMSFNCBasePersistenceIO
+
+CreateObject is called on JSON Load to allow your root object to create the object to restore.
+
+```pascal
+function TGarage.CreateObject(const AClassName: string; const ABaseClass: TClass): TObject;
+begin
+  result := nil;
+  if AClassName = 'TElectricCar' then
+    result := TElectricCar.Create('co - electric', 'json load', 0);
+  if AClassName = 'TGasolineCar' then
+    result := TGasolineCar.Create('co - gasoline', 'json load', 0);
+  if AClassName = 'TEvenCylinder' then
+    result := TEvenCylinder.Create();
+  if AClassName = 'TOddCylinder' then
+    result := TOddCylinder.Create();
+end;
+```
 
 ## Generic List - TCarList Implements ITMSFNCBaseListIO
 
@@ -39,7 +58,7 @@ Your root object needs to implement ITMSFNCBasePersistenceIO, this will allow yo
   private
     FOwnerInterface: IInterface;
   protected
-    function GetItemClass: TClass;
+    function GetItemClass: TClass; //provides the base class for the dictionary value
     function _AddRef: integer; stdcall;
     function _Release: integer; stdcall;
   public

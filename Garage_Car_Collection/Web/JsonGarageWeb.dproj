@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{C8228AA5-DBD6-4FA5-8823-7D70902DF526}</ProjectGuid>
+        <ProjectGuid>{393F2FDA-A273-4D96-B899-78093DADCC98}</ProjectGuid>
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
@@ -8,7 +8,7 @@
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
-        <MainSource>JsonGarageVCL.dpr</MainSource>
+        <MainSource>JsonGarageWeb.dpr</MainSource>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -54,13 +54,14 @@
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
+        <TMSWebProject>2</TMSWebProject>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
-        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
-        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
-        <SanitizedProjectName>JsonGarageVCL</SanitizedProjectName>
+        <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
+        <SanitizedProjectName>JsonGarageWeb</SanitizedProjectName>
+        <TMSWebHTMLFile>JsonGarage.html</TMSWebHTMLFile>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <DCC_UsePackage>soapserver;IndySystem;vclwinx;fmx;VCLTMSFNCCorePkgDXE14;vclie;DbxCommonDriver;bindengine;vcldb;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FMXTMSFNCUIPackPkgDXE14;FireDACCommonDriver;VCLTMSFNCChartPkgDXE14;appanalytics;IndyProtocols;vclx;JclContainers;FMXTMSFNCChartPkgDXE14;IndyIPClient;dbxcds;vcledge;vclFireDAC;VCLSERTTKDXE22;bindcompvclwinx;bindcomp;FireDACCommon;FmxTeeUI;VCLTMSFNCUIPackPkgDXE14;FMXTMSFNCCorePkgDXE14;VCLTMSFNCWXPackPkgDXE14;IndyCore;RESTBackendComponents;bindcompfmx;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;RESTComponents;soapmidas;DBXSqliteDriver;vcl;vclactnband;IndyIPServer;dsnapxml;fmxFireDAC;dbexpress;dsnapcon;adortl;Jcl;Python;TeeUI;DBXMySQLDriver;Tee;FMXTMSFNCWXPackPkgDXE14;VclSmp;inet;VCLSERTTKDXE22DT;vclimg;PythonVcl;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;FMXSERTTKDXE22;dbrtl;TMSWEBCorePkgLibDXE14;bindcompvcl;dsnap;fmxdae;TeeDB;FMXSERTTKDXE22DT;CloudService;FireDACMSAccDriver;TMSWEBCorePkgDXE14;CustomIPTransport;fmxobj;bindcompvclsmp;FMXTee;JclDeveloperTools;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>soapserver;IndySystem;vclwinx;fmx;VCLTMSFNCCorePkgDXE14;vclie;DbxCommonDriver;bindengine;vcldb;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FMXTMSFNCUIPackPkgDXE14;FireDACCommonDriver;appanalytics;IndyProtocols;vclx;JclContainers;IndyIPClient;dbxcds;vcledge;vclFireDAC;VCLSERTTKDXE22;bindcompvclwinx;bindcomp;FireDACCommon;FmxTeeUI;FMXTMSFNCCorePkgDXE14;VCLTMSFNCUIPackPkgDXE14;IndyCore;RESTBackendComponents;bindcompfmx;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;RESTComponents;soapmidas;DBXSqliteDriver;vcl;vclactnband;IndyIPServer;dsnapxml;fmxFireDAC;dbexpress;dsnapcon;adortl;Jcl;Python;TeeUI;DBXMySQLDriver;Tee;VclSmp;inet;VCLSERTTKDXE22DT;vclimg;PythonVcl;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;FMXSERTTKDXE22;dbrtl;TMSWEBCorePkgLibDXE14;bindcompvcl;dsnap;fmxdae;TeeDB;FMXSERTTKDXE22DT;CloudService;FireDACMSAccDriver;TMSWEBCorePkgDXE14;CustomIPTransport;fmxobj;bindcompvclsmp;FMXTee;JclDeveloperTools;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -69,7 +70,7 @@
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <DCC_UsePackage>soapserver;IndySystem;vclwinx;fmx;VCLTMSFNCCorePkgDXE14;vclie;DbxCommonDriver;bindengine;vcldb;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FMXTMSFNCUIPackPkgDXE14;FireDACCommonDriver;VCLTMSFNCChartPkgDXE14;appanalytics;IndyProtocols;vclx;FMXTMSFNCChartPkgDXE14;IndyIPClient;dbxcds;vcledge;vclFireDAC;VCLSERTTKDXE22;bindcompvclwinx;bindcomp;FireDACCommon;FmxTeeUI;VCLTMSFNCUIPackPkgDXE14;FMXTMSFNCCorePkgDXE14;IndyCore;RESTBackendComponents;bindcompfmx;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;RESTComponents;soapmidas;DBXSqliteDriver;vcl;vclactnband;IndyIPServer;dsnapxml;fmxFireDAC;dbexpress;dsnapcon;adortl;Python;TeeUI;DBXMySQLDriver;Tee;VclSmp;inet;vclimg;PythonVcl;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;FMXSERTTKDXE22;dbrtl;bindcompvcl;dsnap;fmxdae;TeeDB;CloudService;FireDACMSAccDriver;CustomIPTransport;fmxobj;bindcompvclsmp;FMXTee;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>soapserver;IndySystem;vclwinx;fmx;VCLTMSFNCCorePkgDXE14;vclie;DbxCommonDriver;bindengine;vcldb;IndyIPCommon;VCLRESTComponents;FireDACCommonODBC;FMXTMSFNCUIPackPkgDXE14;FireDACCommonDriver;appanalytics;IndyProtocols;vclx;IndyIPClient;dbxcds;vcledge;vclFireDAC;VCLSERTTKDXE22;bindcompvclwinx;bindcomp;FireDACCommon;FmxTeeUI;FMXTMSFNCCorePkgDXE14;VCLTMSFNCUIPackPkgDXE14;IndyCore;RESTBackendComponents;bindcompfmx;bindcompdbx;inetdb;rtl;FireDACMySQLDriver;FireDACSqliteDriver;DbxClientDriver;FireDACADSDriver;RESTComponents;soapmidas;DBXSqliteDriver;vcl;vclactnband;IndyIPServer;dsnapxml;fmxFireDAC;dbexpress;dsnapcon;adortl;Python;TeeUI;DBXMySQLDriver;Tee;VclSmp;inet;vclimg;PythonVcl;vcltouch;FireDACPgDriver;FireDAC;fmxase;inetdbxpress;xmlrtl;tethering;FMXSERTTKDXE22;dbrtl;bindcompvcl;dsnap;fmxdae;TeeDB;CloudService;FireDACMSAccDriver;CustomIPTransport;fmxobj;bindcompvclsmp;FMXTee;soaprtl;vcldsnap;DBXInterBaseDriver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -80,16 +81,24 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
         <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
         <DCC_RangeChecking>true</DCC_RangeChecking>
+        <TMSWebDebugInfo>2</TMSWebDebugInfo>
+        <TMSWebDefines>$(TMSWebDefines);DEBUG</TMSWebDefines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <TMSWebSourcePaths>$(TMSWebSourcePaths);C:\Repos\Github\FNC_JSON_Samples\Garage_Car_Collection</TMSWebSourcePaths>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>0</DCC_DebugInformation>
+        <TMSWebObfuscation>2</TMSWebObfuscation>
+        <TMSWebOptimization>2</TMSWebOptimization>
+        <TMSWebDefines>$(TMSWebDefines);RELEASE</TMSWebDefines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -98,11 +107,13 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="frmJsonGarageVCL.pas">
-            <Form>frmJsonGarageV</Form>
+        <DCCReference Include="frmJsonGarageWebU.pas">
+            <Form>frmJsonGarage</Form>
             <FormType>dfm</FormType>
+            <DesignClass>TWebForm</DesignClass>
         </DCCReference>
         <DCCReference Include="..\BOGarageCars.pas"/>
+        <None Include="JsonGarage.html"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -121,13 +132,29 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">JsonGarageVCL.dpr</Source>
+                    <Source Name="MainSource">JsonGarageWeb.dpr</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k280.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp280.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
-                <DeployFile LocalName="Win32\Debug\JsonGarageVCL.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="C:\Repos\Github\FNC_JSON_Samples\Garage_Car_Collection\Web\JsonGarage.html" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
-                        <RemoteName>JsonGarageVCL.exe</RemoteName>
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="JsonGarage.html" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win32\Debug\JsonGarageWeb.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>JsonGarageWeb.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

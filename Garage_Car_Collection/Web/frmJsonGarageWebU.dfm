@@ -1,22 +1,12 @@
-object frmJsonGarageV: TfrmJsonGarageV
-  Left = 0
-  Top = 0
-  Caption = 'frmJsonGarage'
-  ClientHeight = 891
-  ClientWidth = 1201
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -12
-  Font.Name = 'Segoe UI'
-  Font.Style = []
-  OnCreate = FormCreate
-  OnResize = FormResize
-  TextHeight = 15
+object frmJsonGarage: TfrmJsonGarage
+  Width = 640
+  Height = 480
+  OnCreate = WebFormCreate
+  OnResize = WebFormResize
   object TMSFNCToolBar1: TTMSFNCToolBar
     Left = 0
     Top = 0
-    Width = 1201
+    Width = 640
     Height = 30
     Align = alTop
     ParentDoubleBuffered = False
@@ -32,7 +22,7 @@ object frmJsonGarageV: TfrmJsonGarageV
     object btnImport: TTMSFNCToolBarButton
       Left = 12
       Top = 3
-      Width = 64
+      Width = 48
       Height = 24
       ParentDoubleBuffered = False
       DoubleBuffered = True
@@ -44,7 +34,7 @@ object frmJsonGarageV: TfrmJsonGarageV
       ParentColor = True
       TabOrder = 0
       OnClick = btnImportClick
-      Text = 'Import'#13#10
+      Text = 'Import'
       Bitmaps = <>
       LargeLayoutBitmaps = <>
       DisabledBitmaps = <>
@@ -53,10 +43,10 @@ object frmJsonGarageV: TfrmJsonGarageV
       LargeLayoutHoverBitmaps = <>
       ControlIndex = 0
     end
-    object btnBoolean: TTMSFNCToolBarButton
-      Left = 79
+    object btnCheckCylinders: TTMSFNCToolBarButton
+      Left = 63
       Top = 3
-      Width = 64
+      Width = 48
       Height = 24
       ParentDoubleBuffered = False
       DoubleBuffered = True
@@ -67,8 +57,8 @@ object frmJsonGarageV: TfrmJsonGarageV
       Font.Style = []
       ParentColor = True
       TabOrder = 2
-      OnClick = btnBooleanClick
-      Text = ''
+      OnClick = btnCheckCylindersClick
+      Text = 'Cylinder'
       Bitmaps = <>
       LargeLayoutBitmaps = <>
       DisabledBitmaps = <>
@@ -81,8 +71,8 @@ object frmJsonGarageV: TfrmJsonGarageV
   object tvLive: TTMSFNCTreeView
     Left = 0
     Top = 30
-    Width = 200
-    Height = 772
+    Width = 350
+    Height = 341
     Align = alLeft
     ParentDoubleBuffered = False
     DoubleBuffered = True
@@ -178,13 +168,13 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Marie Wang'
+                Text = 'Liam Andersson'
               end
               item
-                Text = 'Finance'
+                Text = 'Sales'
               end
               item
-                Text = 'On Leave'
+                Text = 'Office'
               end>
             Tag = 0
             Nodes = <>
@@ -192,13 +182,13 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Liam Ali'
+                Text = 'Yusuf Wang'
               end
               item
                 Text = 'Manufactering'
               end
               item
-                Text = 'Flight'
+                Text = 'Office'
               end>
             Tag = 0
             Nodes = <>
@@ -206,13 +196,13 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Arthur Gonzales'
+                Text = 'Yusuf Moyo'
               end
               item
-                Text = 'Manufactering'
+                Text = 'Sales'
               end
               item
-                Text = 'Flight'
+                Text = 'Abroad'
               end>
             Tag = 0
             Nodes = <>
@@ -229,7 +219,7 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Arthur Peeters'
+                Text = 'Omar Moyo'
               end
               item
                 Text = 'Customers'
@@ -243,13 +233,13 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Fatma Ali'
+                Text = 'Arthur Wang'
               end
               item
-                Text = 'Marketing'
+                Text = 'Sales'
               end
               item
-                Text = 'Flight'
+                Text = 'On Leave'
               end>
             Tag = 0
             Nodes = <>
@@ -265,41 +255,41 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Liam Smith'
+                Text = 'Isabella Smith'
+              end
+              item
+                Text = 'Sales'
+              end
+              item
+                Text = 'On Leave'
+              end>
+            Tag = 0
+            Nodes = <>
+          end
+          item
+            Values = <
+              item
+                Text = 'Isabella Gonzales'
               end
               item
                 Text = 'Marketing'
               end
               item
-                Text = 'Office'
-              end>
-            Tag = 0
-            Nodes = <>
-          end
-          item
-            Values = <
-              item
-                Text = 'Omar Gonzales'
-              end
-              item
-                Text = 'Manufactering'
-              end
-              item
-                Text = 'Office'
-              end>
-            Tag = 0
-            Nodes = <>
-          end
-          item
-            Values = <
-              item
-                Text = 'Liam Ali'
-              end
-              item
-                Text = 'Manufactering'
-              end
-              item
                 Text = 'Abroad'
+              end>
+            Tag = 0
+            Nodes = <>
+          end
+          item
+            Values = <
+              item
+                Text = 'Fatma Gonzales'
+              end
+              item
+                Text = 'Finance'
+              end
+              item
+                Text = 'Office'
               end>
             Tag = 0
             Nodes = <>
@@ -386,26 +376,24 @@ object frmJsonGarageV: TfrmJsonGarageV
     GlobalFont.Style = []
     DefaultViewJSONOptions.NameHTMLTemplate = '<#NAME>'
     DefaultViewJSONOptions.ValueHTMLTemplate = '<#VALUE>'
-    ExplicitHeight = 861
   end
   object TMSFNCSplitter1: TTMSFNCSplitter
-    Left = 200
+    Left = 350
     Top = 30
     Width = 10
-    Height = 772
+    Height = 341
     Cursor = crHSplit
     Align = alLeft
     ParentDoubleBuffered = False
     DoubleBuffered = True
     TabOrder = 2
     MinSize = 20.000000000000000000
-    ExplicitHeight = 861
   end
   object tvImport: TTMSFNCTreeView
-    Left = 210
+    Left = 360
     Top = 30
-    Width = 991
-    Height = 772
+    Width = 280
+    Height = 341
     Align = alClient
     ParentDoubleBuffered = False
     DoubleBuffered = True
@@ -501,13 +489,13 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Marie Smith'
+                Text = 'Isabella Wang'
               end
               item
                 Text = 'Marketing'
               end
               item
-                Text = 'On Leave'
+                Text = 'Office'
               end>
             Tag = 0
             Nodes = <>
@@ -515,7 +503,7 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Yusuf Wang'
+                Text = 'Yusuf Andersson'
               end
               item
                 Text = 'Sales'
@@ -529,13 +517,13 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Liam Wang'
+                Text = 'Fatma Peeters'
               end
               item
-                Text = 'Marketing'
+                Text = 'Research'
               end
               item
-                Text = 'On Leave'
+                Text = 'Abroad'
               end>
             Tag = 0
             Nodes = <>
@@ -552,10 +540,10 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Yusuf Smith'
+                Text = 'Marie Andersson'
               end
               item
-                Text = 'Finance'
+                Text = 'Sales'
               end
               item
                 Text = 'Office'
@@ -566,10 +554,10 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Fatma Wang'
+                Text = 'Marie Smith'
               end
               item
-                Text = 'Finance'
+                Text = 'Marketing'
               end
               item
                 Text = 'On Leave'
@@ -588,10 +576,24 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Fatma Wang'
+                Text = 'Liam Gonzales'
               end
               item
-                Text = 'Finance'
+                Text = 'HR'
+              end
+              item
+                Text = 'Abroad'
+              end>
+            Tag = 0
+            Nodes = <>
+          end
+          item
+            Values = <
+              item
+                Text = 'Liam Smith'
+              end
+              item
+                Text = 'Customers'
               end
               item
                 Text = 'Office'
@@ -602,27 +604,13 @@ object frmJsonGarageV: TfrmJsonGarageV
           item
             Values = <
               item
-                Text = 'Liam Peeters'
-              end
-              item
-                Text = 'Manufactering'
-              end
-              item
-                Text = 'Office'
-              end>
-            Tag = 0
-            Nodes = <>
-          end
-          item
-            Values = <
-              item
-                Text = 'Marie Andersson'
+                Text = 'Liam Ali'
               end
               item
                 Text = 'Sales'
               end
               item
-                Text = 'Office'
+                Text = 'On Leave'
               end>
             Tag = 0
             Nodes = <>
@@ -709,19 +697,34 @@ object frmJsonGarageV: TfrmJsonGarageV
     GlobalFont.Style = []
     DefaultViewJSONOptions.NameHTMLTemplate = '<#NAME>'
     DefaultViewJSONOptions.ValueHTMLTemplate = '<#VALUE>'
-    ExplicitHeight = 861
   end
-  object Memo1: TMemo
+  object TMSFNCStatusBar1: TTMSFNCStatusBar
     Left = 0
-    Top = 802
-    Width = 1201
+    Top = 460
+    Width = 640
+    Height = 20
+    ParentDoubleBuffered = False
+    DoubleBuffered = True
+    TabOrder = 4
+    Panels = <>
+    PanelAppearance.Font.Charset = DEFAULT_CHARSET
+    PanelAppearance.Font.Color = clWindowText
+    PanelAppearance.Font.Height = -11
+    PanelAppearance.Font.Name = 'Segoe UI'
+    PanelAppearance.Font.Style = []
+  end
+  object WebMemo1: TWebMemo
+    Left = 0
+    Top = 371
+    Width = 640
     Height = 89
     Align = alBottom
+    AutoSize = False
+    HeightPercent = 100.000000000000000000
     Lines.Strings = (
-      'Memo1')
-    TabOrder = 4
-    ExplicitLeft = 400
-    ExplicitTop = 384
-    ExplicitWidth = 185
+      'WebMemo1')
+    SelLength = 0
+    SelStart = 0
+    WidthPercent = 100.000000000000000000
   end
 end

@@ -2,7 +2,12 @@ unit BOGarageCars;
 
 interface
 
-uses System.Classes, Generics.Collections, VCL.TMSFNCJSONReader, VCL.TMSFNCPersistence;
+uses System.Classes, Generics.Collections,
+{$IFDEF WEBLIB}
+  WebLib.TMSFNCJSONReader, WebLib.TMSFNCPersistence;
+{$ELSE}
+VCL.TMSFNCJSONReader, VCL.TMSFNCPersistence;
+{$ENDIF}
 
 type
 
@@ -39,10 +44,10 @@ type
     FOwnerInterface: IInterface;
   protected
     function GetItemClass: TClass;
-    function _AddRef: integer; stdcall;
-    function _Release: integer; stdcall;
+    function _AddRef: integer; {$IFNDEF WEBLIB} stdcall; {$ENDIF}
+    function _Release: integer; {$IFNDEF WEBLIB} stdcall; {$ENDIF}
   public
-    function QueryInterface(const IID: TGUID; out Obj): HResult; virtual; stdcall;
+    function QueryInterface(const IID: TGUID; out Obj): HResult; virtual; {$IFNDEF WEBLIB} stdcall; {$ENDIF}
   end;
 
   TGasolineCar = class(TCar)
@@ -68,10 +73,10 @@ type
     FOwnerInterface: IInterface;
   protected
     function GetItemClass: TClass;
-    function _AddRef: integer; stdcall;
-    function _Release: integer; stdcall;
+    function _AddRef: integer; {$IFNDEF WEBLIB} stdcall; {$ENDIF}
+    function _Release: integer; {$IFNDEF WEBLIB} stdcall; {$ENDIF}
   public
-    function QueryInterface(const IID: TGUID; out Obj): HResult; virtual; stdcall;
+    function QueryInterface(const IID: TGUID; out Obj): HResult; virtual; {$IFNDEF WEBLIB} stdcall; {$ENDIF}
   end;
 
   TGarage = class(TInterfacedPersistent, ITMSFNCBasePersistenceIO)
@@ -92,7 +97,13 @@ type
 
 implementation
 
-uses VCL.TMSFNCUtils, System.DateUtils, System.SysUtils;
+uses
+{$IFDEF WEBLIB}
+  WebLib.TMSFNCUtils,
+{$ELSE}
+  VCL.TMSFNCUtils,
+{$ENDIF}
+  System.DateUtils, System.SysUtils;
 
 { TGarage }
 
@@ -138,9 +149,11 @@ end;
 
 class procedure TGarage.RegisterJsonClasses;
 begin
+  RegisterClass(TCar);
   RegisterClass(TGasolineCar);
   RegisterClass(TElectricCar);
   RegisterClass(TCylinder);
+  RegisterClass(TGarage);
 end;
 
 { TCar }
@@ -199,7 +212,11 @@ end;
 { TCylinderList }
 
 function TCylinderList.GetItemClass: TClass;
+var
+  cyl: TCylinder;  // variable is of type that will be returned
 begin
+  if 1 < 0 then // compiler determines this to be valid will not optimize
+    cyl := self.Items[0];
   result := TCylinder;
 end;
 
@@ -230,7 +247,17 @@ end;
 { TCarList }
 
 function TCarList.GetItemClass: TClass;
+var
+  c: TCar; // variable is of type that will be returned
+  s: String; // variable for itterator
 begin
+  if 1 < 0 then // compiler determines this to be valid - will not optimize
+  begin
+    for s in self.Keys do // call to keys on generic
+      c := Items[s];
+    s := ''; // avoid warning variable not used
+    c := nil; // avoid warning variable not used
+  end;
   result := TCar;
 end;
 

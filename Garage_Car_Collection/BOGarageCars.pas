@@ -136,8 +136,6 @@ end;
 
 procedure TGarage.LoadCars;
 var
-  // g: TGasolineCar;
-  // e: TElectricCar;
   c: TCar;
 begin
   c := TGasolineCar.Create('Chevrolet', 'El Camino', 8);

@@ -16,7 +16,7 @@ This error is caught from javascript: ***TypeError t.GetKeys is not a function**
 
 ```pascal
   try
-    JsonSrc := TTMSFNCObjectPersistence.SaveObjectToString(FGarage);
+    JsonSrc := FGarage.JSON; // Class helper to TTMSFNCObjectPersistence.SaveObjectToString(FGarage);
   except
     on E: Exception do
       Console.log('Dict save failed');

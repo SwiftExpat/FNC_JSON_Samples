@@ -1,6 +1,6 @@
 ## Compiler Optimization - Generics and FNC JSON
 
-When using generics, the PAS2JS compiler can optimize too agressively and produce errors in release mode, optimization is on by default, that are hard to debug. For me it is hard to debug because I expect the inherited structure to be available. Here is an approach to ensure that the PAS2JS compiler does not optimize when using FNC JSON for serialization.
+When using generics, the PAS2JS compiler can optimize too agressively and produce errors in release mode. Optimization is controlled by the setting, 'Enable Optimization', in the compile options; default in release mode is true. Here is an approach to ensure that the PAS2JS compiler does not optimize when using FNC JSON for serialization.
 
 **Note** : Since this only occurs in release mode you should evaluate any unit tests and ensure they are run in release mode with optimization.
 
@@ -8,9 +8,9 @@ Watch the [webinar replay](https://youtu.be/sQ46wSnHCn8) were Bruno and I touche
 
 Source code for this article can be found on [GitHub](https://github.com/SwiftExpat/FNC_JSON_Samples).
 
-In the [previous blog](https://www.tmssoftware.com/site/blog.asp?post=1050) I created a VCL example on how to serialize a TObjectDictionary and TObjectList using FNC JSON. Here I will explain the code necessary to prevesnt the optimizer in WebCore.
+In the [previous blog](https://www.tmssoftware.com/site/blog.asp?post=1050) I created a VCL example on how to serialize a TObjectDictionary and TObjectList using FNC JSON. Here I will explain the code necessary to prevent the optimizer in WebCore.
 
-### Catch the Error
+# Catch the Error
 
 This error is caught from javascript: ***TypeError t.GetKeys is not a function***. To catch this error the exception block needs to handle the else condition as demonstrated here:
 
@@ -25,11 +25,15 @@ This error is caught from javascript: ***TypeError t.GetKeys is not a function**
   end;
 ```
 
-FNC JSON is looking for a GetItemClass method on both the TObjectList and TObjectDictionary and it happens to be a natural place to include the fix. The fix works by declaring a variable of the same class type that will be returned which makes the code easy to review later.
+**Debug the problem**  The first debug step for this situation is to turn off optimization. 
+
+# Fix the Code
+
+FNC JSON is looking for a GetItemClass method on both the TObjectList and TObjectDictionary and it happens to be a natural place to include the fix. The fix works by declaring a variable of the same class type that will be returned which makes the code easy to review later. 
 
 ## TObjectDictionary Fix
 
-I suggest to include the fix in the GetItemClass method because you are returning the same class that you will need a local variable for. There is a good location to include the code to make sure the compiler does not optimize out your dictionary and that is the GetItemClass method.
+In an object dictionary the location to include the fix is here:
 
 ### Declaration
 
@@ -69,7 +73,7 @@ end;
 
 ## TObjectList Fix
 
-In an object list the location to include the fix is here
+In an object list the location to include the fix is here:
 
 ### Declaration
 

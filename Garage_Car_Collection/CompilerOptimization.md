@@ -15,6 +15,9 @@ In the [previous blog](https://www.tmssoftware.com/site/blog.asp?post=1050) I cr
 This error is caught from javascript: ***TypeError t.GetKeys is not a function***. To catch this error the exception block needs to handle the else condition as demonstrated here:
 
 ```pascal
+  var
+    JsonSrc : string; // JSON is returned as string
+  ...
   try
     JsonSrc := FGarage.JSON; // Class helper to TTMSFNCObjectPersistence.SaveObjectToString(FGarage);
   except
@@ -25,11 +28,11 @@ This error is caught from javascript: ***TypeError t.GetKeys is not a function**
   end;
 ```
 
-**Debug the problem**  The first debug step for this situation is to turn off optimization. 
+***Debug Procedure***  The first debug step for this situation is to turn off optimization. The error should not happen when optimization is off.
 
 # Fix the Code
 
-FNC JSON is looking for a GetItemClass method on both the TObjectList and TObjectDictionary and it happens to be a natural place to include the fix. The fix works by declaring a variable of the same class type that will be returned which makes the code easy to review later. 
+FNC JSON is looking for a GetItemClass method on both the TObjectList and TObjectDictionary and it happens to be a natural place to include the fix. The fix works by declaring a variable of the same class type that will be returned which makes the code easy to review later.
 
 ## TObjectDictionary Fix
 
